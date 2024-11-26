@@ -82,9 +82,9 @@ invert.stream.beta <- beta.pair(invert.stream.dat.pa)
 invert.stream.beta
 
 #simpson 
-invert.stream.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
+invert.stream.beta$beta.sim # 11.11% of the dissimilarity is due to species turnover
 #sorensen
-invert.stream.beta$beta.sor # 33.33% of the total diversity is due to differences between the two sites 
+invert.stream.beta$beta.sor # 27.27% of the total diversity is due to differences between the two sites 
 
 
 ## VISUALISING THE DATA ##
@@ -110,7 +110,7 @@ plot2.stream <- ggplot(invert.stream.dat, aes(x=order, fill = site)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
-plot2.stream
+
 # combine plots together
 
 library(gridExtra)
