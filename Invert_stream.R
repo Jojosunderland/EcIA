@@ -66,3 +66,22 @@ invert.stream.dat.pa <- invert.stream.dat.pa[,-1] # delete the site column
 invert.stream.dat.pa[invert.stream.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
 
 View(invert.stream.dat.pa)
+
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+invert.stream.shan.ab <- diversity(invert.stream.dat.ab, index = 'shannon') #using abundance matrix
+invert.stream.shan.ab
+
+invert.stream.shan.pa <- diversity(invert.stream.dat.pa, index='shannon') # using P/A matrix
+invert.stream.shan.pa
+
+#Beta
+invert.stream.beta <- beta.pair(invert.stream.dat.pa)
+invert.stream.beta
+
+#simpson 
+invert.stream.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
+#sorensen
+invert.stream.beta$beta.sor # 33.33% of the total diversity is due to differences between the two sites 
