@@ -9,7 +9,7 @@ library('vegan')
 library('betapart')
 library('dplyr')
 
-# read in appropriate data sheet for invertebrate transect data
+# read in appropriate data sheet for invertebrate stream data
 # for both Site A (south) and Site B (north)
 invert.stream <-
   read_xlsx("~/Documents/WorkingD/EcIA/Data/Arran_GBIF_data.xlsx",sheet="Invert streams")
