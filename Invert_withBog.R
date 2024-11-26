@@ -1,5 +1,5 @@
 # Results for Bog data (found on Site A/south side)
-# Going to manually add the bog data to the end of the invert field transects sheet in excel and then redo the plots and
+# Going to manually add the bog sweep net data to the end of the invert field transects sheet in excel and then redo the plots and
 # diversity indices to see if the bog makes any big changes.
 
 # load packages
@@ -137,5 +137,67 @@ grid.arrange(plot1, plot3, ncol = 2)  # Arrange plots in 2 columns
 # invertebrate abundances (divided into diff orders)
 quartz()
 grid.arrange(plot2, plot4, ncol = 2)
+
+
+## Invertebrate aquatic data with the bog data ##
+# Manually added the kicknet sampling data to the stream excel sheet
+
+# read in appropriate data sheet for bog data
+invert.aqua <-
+  read_xlsx("~/Documents/WorkingD/EcIA/Data/Arran_GBIF_data.xlsx",sheet="Invert aquatic")
+
+View(invert.aqua)
+
+# extract only the columns i'm interested in: site, individualCount and order
+invert.aqua.dat <- select(invert.aqua, site, order, individualCount)
+
+View(invert.aqua.dat)
+
+# remove any rows that have NAs for the order
+invert.aqua.dat <- invert.aqua.dat[-which(is.na(invert.aqua.dat$order)),] #which orders have NAs
+
+# create dataframes for each site (north = B, south = A) - keeping them named as north and south here to match the data. 
+invert.aqua.dat.north <-invert.aqua.dat[which(invert.aqua.dat$site=="North"),]
+invert.aqua.dat.south <-invert.aqua.dat[which(invert.aqua.dat$site=="South"),]
+
+# calculate how many unique orders are there between the sites
+length(unique(invert.aqua.dat.north$order)) # 13 unique orders
+length(unique(invert.aqua.dat.south$order)) # 12 unique orders
+
+
+## Create a site by species matrix ##
+
+#abundance data
+invert.aqua.dat.ab <- invert.aqua.dat %>%
+  pivot_wider(
+    names_from=order, #order as column names
+    values_from=individualCount, # count data for each column (order)
+    values_fill = list(individualCount = 0), # NAs into 0's
+    values_fn = list(individualCount=sum)) # sums count data for each order
+invert.aqua.dat.ab <- invert.aqua.dat.ab[,-1] # delete the site column
+
+View(invert.aqua.dat.ab) # abundance matrix
+
+#presence/absence data
+invert.aqua.dat.new <- invert.aqua.dat[,c("order","site")] 
+invert.aqua.dat.new$presence <- 1  # adds a new column presences (sets everything to 1s)
+
+# group by site, order and sum the values (presence data) for each group 
+invert.aqua.dat.new <- invert.aqua.dat.new %>%
+  group_by(site, order) %>%
+  summarise(presence = sum(presence), .groups = "drop")
+
+invert.aqua.dat.pa <- invert.aqua.dat.new %>% 
+  pivot_wider(names_from=order,values_from=c(presence)) 
+# pivot_wider creates a wide-format data frame, each site becomes a row, each order becomes a column
+list0 <- as.list(rep(0,ncol(invert.aqua.dat.pa))) # creates a list where each column name is assigned a value of 0
+names(list0) <- names(invert.aqua.dat.pa)
+invert.aqua.dat.pa <- as.data.frame(invert.aqua.dat.pa %>% replace_na(list0)) 
+# replace NA values with 0, representing species absence
+row.names(invert.aqua.dat.pa) <- invert.aqua.dat.pa$site #site columns are assigned as row names, columns are orders
+invert.aqua.dat.pa <- invert.aqua.dat.pa[,-1] # delete the site column
+invert.aqua.dat.pa[invert.aqua.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
+
+View(invert.aqua.dat.pa)
 
 
