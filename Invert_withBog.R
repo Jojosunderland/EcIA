@@ -131,10 +131,12 @@ plot4 <- ggplot(invert.terr.dat, aes(x=order, fill = site))+
 install.packages("gridExtra")
 library(gridExtra)
 # number of unique orders 
+# plot1 is from invert_transects script
 quartz()
 grid.arrange(plot1, plot3, ncol = 2)  # Arrange plots in 2 columns
 
 # invertebrate abundances (divided into diff orders)
+#plot2 is from invert_transects script
 quartz()
 grid.arrange(plot2, plot4, ncol = 2)
 
@@ -216,4 +218,54 @@ invert.aqua.beta
 
 invert.aqua.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
 invert.aqua.beta$beta.sor # 20% of the total diversity is due to differences between the two sites 
+
+## Plot diversity differences ##
+
+library(ggplot2)
+
+## Plot 1: the difference in unique orders present between sites
+
+ggplot(invert.aqua.dat, aes(x=site, fill = order)) +
+  geom_bar() +
+  labs(x = "Site", y = "Count", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  # Swapped the axis labels around and changed their names to match names in project
+  theme_bw() 
+
+#Change colours of legend to be more colour blind friendly
+
+install.packages("viridis")  # colour blind friendly package
+library(viridis)
+
+plot5 <- ggplot(invert.aqua.dat, aes(x = site, fill = order)) +
+  geom_bar() +
+  labs(title = "Aquatic invertebrate orders (streams and bog)", x = "Site", y = "Abundance of Freshwater Invertebrates", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  scale_fill_viridis_d(option = "plasma") + 
+  scale_y_continuous(breaks = seq(0, 100, 20)) +
+  theme_bw() 
+
+
+## Plot 2: abundance differences between sites of orders
+
+plot6 <- ggplot(invert.aqua.dat, aes(x=order, fill = site))+
+  geom_bar() +
+  labs(title = "Aquatic invertebrate abundance (streams and bog)", y = "Abundance of Freshwater Invertebrates",x = 'Order', fill = 'Site') +
+  scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
+                    limits = c("South", "North"),
+                    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# combine plots together, compare between transect only data and transect+bog data
+
+install.packages("gridExtra")
+library(gridExtra)
+# number of unique orders 
+quartz()
+grid.arrange(plot1.stream, plot5, ncol = 2)  # Arrange plots in 2 columns
+
+# invertebrate abundances (divided into diff orders)
+quartz()
+grid.arrange(plot2.stream, plot6, ncol = 2)
 
