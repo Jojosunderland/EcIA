@@ -31,3 +31,38 @@ invert.stream.dat.south <-invert.stream.dat[which(invert.stream.dat$site=="South
 # calculate how many unique orders are there between the sites
 length(unique(invert.stream.dat.north$order)) # 13 unique orders
 length(unique(invert.stream.dat.south$order)) # 9 unique orders
+
+## Create a site by species matrix ##
+
+#abundance data
+invert.stream.dat.ab <- invert.stream.dat %>%
+  pivot_wider(
+    names_from=order, #order as column names
+    values_from=individualCount, # count data for each column (order)
+    values_fill = list(individualCount = 0), # NAs into 0's
+    values_fn = list(individualCount=sum)) # sums count data for each order
+invert.stream.dat.ab <- invert.stream.dat.ab[,-1] # delete the site column
+
+View(invert.stream.dat.ab) # abundance matrix
+
+#presence/absence data
+invert.stream.dat.new <- invert.stream.dat[,c("order","site")] 
+invert.stream.dat.new$presence <- 1  # adds a new column presences (sets everything to 1s)
+
+# group by site, order and sum the values (presence data) for each group 
+invert.stream.dat.new <- invert.stream.dat.new %>%
+  group_by(site, order) %>%
+  summarise(presence = sum(presence), .groups = "drop")
+
+invert.stream.dat.pa <- invert.stream.dat.new %>% 
+  pivot_wider(names_from=order,values_from=c(presence)) 
+# pivot_wider creates a wide-format data frame, each site becomes a row, each order becomes a column
+list0 <- as.list(rep(0,ncol(invert.stream.dat.pa))) # creates a list where each column name is assigned a value of 0
+names(list0) <- names(invert.stream.dat.pa)
+invert.stream.dat.pa <- as.data.frame(invert.stream.dat.pa %>% replace_na(list0)) 
+# replace NA values with 0, representing species absence
+row.names(invert.stream.dat.pa) <- invert.stream.dat.pa$site #site columns are assigned as row names, columns are orders
+invert.stream.dat.pa <- invert.stream.dat.pa[,-1] # delete the site column
+invert.stream.dat.pa[invert.stream.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
+
+View(invert.stream.dat.pa)
