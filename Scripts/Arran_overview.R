@@ -52,3 +52,18 @@ arran.dat.pa <- arran.dat.pa[,-1] # delete the site column
 arran.dat.pa[arran.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
 
 View(arran.dat.pa)
+
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+arran.shan <- diversity(arran.dat.pa, index='shannon') # using P/A matrix
+arran.shan
+
+#Beta
+arran.beta <- beta.pair(arran.dat.pa)
+
+arran.beta$beta.sim # 20% of the dissimilarity is due to species turnover
+arran.beta$beta.sor # 20% of the total diversity is due to differences between the two sites 
+
+
