@@ -108,7 +108,7 @@ library(viridis)
 
 plot3 <- ggplot(invert.terr.dat, aes(x = site, fill = order)) +
   geom_bar() +
-  labs(title = "Terrestrial invertebrate orders (including the bog)", x = "Site", y = "Abundance", fill = "Order") + 
+  labs(title = "Terrestrial invertebrate orders (field and bog)", x = "Site", y = "Abundance of Terrestrial Invertebrates", fill = "Order") + 
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
   scale_fill_viridis_d(option = "plasma") + 
   scale_y_continuous(breaks = seq(0, 100, 20)) +
@@ -119,7 +119,7 @@ plot3 <- ggplot(invert.terr.dat, aes(x = site, fill = order)) +
 
 plot4 <- ggplot(invert.terr.dat, aes(x=order, fill = site))+
   geom_bar() +
-  labs(title = "Terrestrial invertebrate abundance (including the bog)", y = "Abundance",x = 'Order', fill = 'Site') +
+  labs(title = "Terrestrial invertebrate abundance (field and bog)", y = "Abundance of Terrestrial Invertebrates",x = 'Order', fill = 'Site') +
   scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
                     limits = c("South", "North"),
                     labels = c("South" = "A", "North" = "B")) +
