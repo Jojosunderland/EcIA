@@ -16,8 +16,8 @@ vert.tech <-
 
 View(vert.tech)
 
-# extract only the columns i'm interested in: site, scientificName and individualCount
-vert.tech.dat <- select(vert.tech, site, scientificName, individualCount)
+# extract only the columns i'm interested in: site, scientificName, class and individualCount
+vert.tech.dat <- select(vert.tech, site, scientificName, individualCount, class)
 # NOTE: individual count is the number of calls detected not number of species
 
 View(vert.tech.dat)
@@ -66,3 +66,81 @@ vert.tech.beta <- beta.pair(vert.tech.dat.pa)
 
 vert.tech.beta$beta.sim # 25% of the dissimilarity is due to species turnover
 vert.tech.beta$beta.sor # 40% of the total diversity is due to differences between the two sites 
+
+## Plot diversity differences ##
+
+library(ggplot2)
+
+# plot 1: difference in total number of recordedings (individualCount) per site
+
+plot1.vert.tech <- ggplot(vert.tech.dat, aes(x=site, y = individualCount, 
+                                             fill = site)) +
+  geom_col() +
+  labs(x= "Sites", y = "Total number of recordings (audio and pictures)", fill = "Sites") +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_manual(
+    values = c("South" = "lightblue", "North" = "lightgreen")
+) +
+  theme(legend.position = 'none') #remove the legend
+
+
+plot1.vert.tech
+
+# plot 2 difference in total number of unique species present per site
+
+# new dataframe that has the total number of unique species per site 
+species.counts.tech <- vert.tech.dat %>%
+  group_by(site) %>%
+  summarise(unique_species = n_distinct(scientificName))
+
+plot2.vert.tech <- ggplot(species.counts.tech, aes(x=site, y = unique_species, fill = site)) +
+  geom_col() +
+  labs(x='Sites', y = "Total number of different vertebrate species present") + 
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_manual(
+    values = c("South" = "lightblue", "North" = "lightgreen")
+  ) +
+  theme(legend.position = 'none') #remove the legend
+
+plot2.vert.tech
+
+# plot 3 difference in species present in each site
+
+plot3.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = scientificName)) +
+  geom_bar() +
+  labs(x='Sites', y = "Total number of different vertebrate species",
+       fill = 'Species') + 
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option = "mako")
+
+plot3.vert.tech  
+
+# plot 4 differnces in species class present in each site
+
+plot4.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = class)) +
+  geom_bar() +
+  labs(x='Sites', y = "Total number of different vertebrate classes",
+       fill = 'Class') + 
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option = "mako", begin =0.3, end = 0.7)
+
+plot4.vert.tech
+
+# Combine the two plots (species and class differences)
+combined_plot5 <- plot3.vert.tech + plot4.vert.tech 
+
+# Display the combined plot
+quartz()
+print(combined_plot5)
