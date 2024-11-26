@@ -9,7 +9,7 @@ library('vegan')
 library('betapart')
 library('dplyr')
 
-# read in appropriate data sheet for invertebrate transect data
+# read in appropriate data sheet for vertebrate transect data
 # for both Site A (south) and Site B (north)
 vert.field <-
   read_xlsx("~/Documents/WorkingD/EcIA/Data/Arran_GBIF_data.xlsx",sheet="Vert transects")
