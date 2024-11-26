@@ -30,3 +30,37 @@ invert.moth.dat.south <-invert.moth.dat[which(invert.moth.dat$site=="South"),]
 length(unique(invert.moth.dat.north$order)) # 5 unique orders
 length(unique(invert.moth.dat.south$order)) # 3 unique orders
 
+## Create a site by species matrix ##
+
+#abundance data
+invert.moth.dat.ab <- invert.moth.dat %>%
+  pivot_wider(
+    names_from=order, #order as column names
+    values_from=individualCount, # count data for each column (order)
+    values_fill = list(individualCount = 0), # NAs into 0's
+    values_fn = list(individualCount=sum)) # sums count data for each order
+invert.moth.dat.ab <- invert.moth.dat.ab[,-1] # delete the site column
+
+View(invert.moth.dat.ab) # abundance matrix
+
+#presence/absence data
+invert.moth.dat.new <- invert.moth.dat[,c("order","site")] 
+invert.moth.dat.new$presence <- 1  # adds a new column presences (sets everything to 1s)
+
+# group by site, order and sum the values (presence data) for each group 
+invert.moth.dat.new <- invert.moth.dat.new %>%
+  group_by(site, order) %>%
+  summarise(presence = sum(presence), .groups = "drop")
+
+invert.moth.dat.pa <- invert.moth.dat.new %>% 
+  pivot_wider(names_from=order,values_from=c(presence)) 
+# pivot_wider creates a wide-format data frame, each site becomes a row, each order becomes a column
+list0 <- as.list(rep(0,ncol(invert.moth.dat.pa))) # creates a list where each column name is assigned a value of 0
+names(list0) <- names(invert.moth.dat.pa)
+invert.moth.dat.pa <- as.data.frame(invert.moth.dat.pa %>% replace_na(list0)) 
+# replace NA values with 0, representing species absence
+row.names(invert.moth.dat.pa) <- invert.moth.dat.pa$site #site columns are assigned as row names, columns are orders
+invert.moth.dat.pa <- invert.moth.dat.pa[,-1] # delete the site column
+invert.moth.dat.pa[invert.moth.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
+
+View(invert.moth.dat.pa)
