@@ -54,3 +54,15 @@ vert.tech.dat.pa[vert.tech.dat.pa > 0] <- 1 # converts count data to presence (1
 
 View(vert.tech.dat.pa)
 
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+vert.tech.shan <- diversity(vert.tech.dat.pa, index='shannon') # using P/A matrix
+vert.tech.shan
+
+#Beta
+vert.tech.beta <- beta.pair(vert.tech.dat.pa)
+
+vert.tech.beta$beta.sim # 25% of the dissimilarity is due to species turnover
+vert.tech.beta$beta.sor # 40% of the total diversity is due to differences between the two sites 
