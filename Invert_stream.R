@@ -85,3 +85,36 @@ invert.stream.beta
 invert.stream.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
 #sorensen
 invert.stream.beta$beta.sor # 33.33% of the total diversity is due to differences between the two sites 
+
+
+## VISUALISING THE DATA ##
+
+# Plot 1: differences in unique number of orders per stream at each site
+library(viridis) # colour blind friendly colours
+
+plot1.stream <- ggplot(invert.stream.dat, aes(x=site, fill = order)) +
+  geom_bar() +
+  labs(x= 'Site of Stream', fill = 'Order', y = 'Abundance of Freshwater Invertebrates') +
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  scale_fill_viridis_d(option = "viridis") + 
+  theme_bw() 
+
+#Plot 2: abundance differences
+
+plot2.stream <- ggplot(invert.stream.dat, aes(x=order, fill = site)) +
+  geom_bar() +
+  labs(x='Order', y='Abundance of Freshwater Invertebrates', fill = 'Site of Stream') +
+  scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
+                    limits = c("South", "North"),
+                    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+plot2.stream
+# combine plots together
+
+library(gridExtra)
+quartz()
+grid.arrange(plot1.stream, plot2.stream, ncol = 2)  # Arrange plots in 2 columns
+
+  
