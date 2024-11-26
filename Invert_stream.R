@@ -94,16 +94,16 @@ library(viridis) # colour blind friendly colours
 
 plot1.stream <- ggplot(invert.stream.dat, aes(x=site, fill = order)) +
   geom_bar() +
-  labs(x= 'Site of Stream', fill = 'Order', y = 'Abundance of Freshwater Invertebrates') +
+  labs(title = 'Aquatic invertebrate orders (only streams)', x= 'Site', fill = 'Order', y = 'Abundance of Freshwater Invertebrates') +
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
-  scale_fill_viridis_d(option = "viridis") + 
+  scale_fill_viridis_d(option = "plasma") + 
   theme_bw() 
 
 #Plot 2: abundance differences
 
 plot2.stream <- ggplot(invert.stream.dat, aes(x=order, fill = site)) +
   geom_bar() +
-  labs(x='Order', y='Abundance of Freshwater Invertebrates', fill = 'Site of Stream') +
+  labs(title = 'Aquatic invertebrate abundance (only streams)', x='Order', y='Abundance of Freshwater Invertebrates', fill = 'Site') +
   scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
                     limits = c("South", "North"),
                     labels = c("South" = "A", "North" = "B")) +
