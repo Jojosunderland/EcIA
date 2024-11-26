@@ -26,8 +26,8 @@ vert.field.dat.north <-vert.field.dat[which(vert.field.dat$site=="North"),]
 vert.field.dat.south <-vert.field.dat[which(vert.field.dat$site=="South"),]
 
 # calculate how many unique species there are between the sites
-length(unique(vert.field.dat.north$scientificName)) # 20 unique species
-length(unique(vert.field.dat.south$scientificName)) # 15 unique species
+vert.north.sp <- length(unique(vert.field.dat.north$scientificName)) # 20 unique species
+vert.south.sp <- length(unique(vert.field.dat.south$scientificName)) # 15 unique species
 
 ## Create a site by species matrix ##
 
@@ -65,3 +65,114 @@ vert.field.beta <- beta.pair(vert.field.dat.pa)
 
 vert.field.beta$beta.sim # 33.33% of the dissimilarity is due to species turnover
 vert.field.beta$beta.sor # 42.86% of the total diversity is due to differences between the two sites 
+
+## Plot diversity differences ##
+
+library(ggplot2)
+
+# plot 1 number of different species found at each site
+
+ggplot(vert.field.dat, aes(x=scientificName, fill = site)) +
+  geom_bar() +
+  labs(x="Species present at the sites", y = "Number of sightings", fill = "Sites") +
+  scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
+                    limits = c("South", "North"),
+                    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# plot 2 composition of sites divided by species
+
+plot1.vert <- ggplot(vert.field.dat, aes(x=site, fill = scientificName)) +
+  geom_bar() +
+  labs(x='Sites', fill = 'Species', y = "Number of sightings") +
+  scale_x_discrete(
+                 limits = c("South", "North"),
+                 labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option = "mako") 
+
+plot1.vert
+
+# plot 3 composition of sites divided by classes
+
+#new dataframe that includes species class
+vert.field.taxa <- select(vert.field, site, class, scientificName)
+
+plot2.vert <- ggplot(vert.field.taxa, aes(x=site, fill = class)) +
+  geom_bar() +
+  labs(x='Sites', fill = 'Class', y = "Total number of sightings") +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option = "mako") 
+
+plot2.vert
+
+install.packages('patchwork') # used to combine the generated plots together
+library(patchwork)
+
+# Combine the two plots with adjusted widths
+combined_plot <- plot1.vert + plot2.vert + plot_layout(widths = c(2, 1))  # Left plot twice the width of the right plot
+
+# Display the combined plot
+quartz()
+print(combined_plot)
+
+# plot 3, bar chart showing difference in total number of species present between sites
+
+#make a new dataframe with counts of the species seen
+
+vert.field.dat.count <- vert.field.dat %>%
+  group_by(scientificName, site) %>%
+  summarise(count = n(), .groups = "drop")  # `n()` counts rows
+
+plot3.vert <- ggplot(vert.field.dat.count, aes(x=site, y = count, fill = site))+
+  geom_col() +
+  labs(x="Sites", y="Total number of vertebrate species present") +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_manual(
+    values = c("South" = "lightblue", "North" = "lightgreen")
+  ) +
+  theme(legend.position = 'none')
+  
+# combine the count plot and class plot together:
+combined_plot2 <- plot3.vert + plot2.vert 
+
+# Display the combined plot
+quartz()
+print(combined_plot2)
+
+# plot 4, the total unique species seen between sites
+# new dataframe of unique species between the two sites
+species_counts <- vert.field.dat %>%
+  group_by(site) %>%
+  summarise(unique_species = n_distinct(scientificName))
+
+plot4.vert <- ggplot(species_counts, aes(x=site, y = unique_species, fill = site)) +
+  geom_col() +
+  labs(x='Sites', y = "Total number of different vertebrate species present") + 
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_manual(
+    values = c("South" = "lightblue", "North" = "lightgreen")
+  ) +
+  theme(legend.position = 'none') #remove the legend
+
+plot4.vert  
+
+# combine the count plot and class plot together:
+combined_plot3 <- plot4.vert + plot2.vert 
+
+# Display the combined plot
+quartz()
+print(combined_plot3)
+
+
