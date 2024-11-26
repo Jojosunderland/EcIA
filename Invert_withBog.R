@@ -200,4 +200,20 @@ invert.aqua.dat.pa[invert.aqua.dat.pa > 0] <- 1 # converts count data to presenc
 
 View(invert.aqua.dat.pa)
 
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+invert.aqua.shan.ab <- diversity(invert.aqua.dat.ab, index = 'shannon') #using abundance matrix
+invert.aqua.shan.ab
+
+invert.aqua.shan.pa <- diversity(invert.aqua.dat.pa, index='shannon') # using P/A matrix
+invert.aqua.shan.pa
+
+#Beta
+invert.aqua.beta <- beta.pair(invert.aqua.dat.pa)
+invert.aqua.beta
+
+invert.aqua.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
+invert.aqua.beta$beta.sor # 20% of the total diversity is due to differences between the two sites 
 
