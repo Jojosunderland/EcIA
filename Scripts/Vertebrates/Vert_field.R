@@ -52,3 +52,16 @@ vert.field.dat.pa <- vert.field.dat.pa[,-1] # delete the site column
 vert.field.dat.pa[vert.field.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
 
 View(vert.field.dat.pa)
+
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+vert.field.shan <- diversity(vert.field.dat.pa, index='shannon') # using P/A matrix
+vert.field.shan
+
+#Beta
+vert.field.beta <- beta.pair(vert.field.dat.pa)
+
+vert.field.beta$beta.sim # 33.33% of the dissimilarity is due to species turnover
+vert.field.beta$beta.sor # 42.86% of the total diversity is due to differences between the two sites 
