@@ -83,3 +83,50 @@ invert.beta
 
 invert.beta$beta.sim # 16.67% of the dissimilarity is due to species turnover
 invert.beta$beta.sor # 33.33% of the total diversity is due to differences between the two sites 
+
+## Plot diversity differences ##
+
+library(ggplot2)
+
+## Plot 1: the difference in unique orders present between sites
+
+ggplot(invert.field.dat, aes(x=site, fill = order)) +
+  geom_bar() +
+  labs(x = "Site", y = "Count", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  # Swapped the axis labels around and changed their names to match names in project
+  theme_bw() 
+
+#Change colours of legend to be more colour blind friendly
+
+install.packages("viridis")  # colour blind friendly package
+library(viridis)
+
+plot1 <- ggplot(invert.field.dat, aes(x = site, fill = order)) +
+  geom_bar() +
+  labs(title = "Terrestrial invertebrate orders (only field)", x = "Site", y = "Abundance of Terrestrial Invertebrates", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  scale_fill_viridis_d(option = "plasma") + 
+  theme_bw()+
+  scale_y_continuous(breaks = seq(0, 100, 20))
+
+plot1
+
+## Plot 2: abundance differences between sites of orders
+
+plot2 <- ggplot(invert.field.dat, aes(x=order, fill = site))+
+  geom_bar() +
+  labs(title = "Terrestrial invertebrate abundance (only field)",y = "Abundance of Terrestrial Invertebrates",x = 'Order', fill = 'Site') +
+  scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
+                    limits = c("South", "North"),
+                    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# combine plots together
+
+install.packages("gridExtra")
+library(gridExtra)
+quartz()
+grid.arrange(plot1, plot2, ncol = 2)  # Arrange plots in 2 columns
+
