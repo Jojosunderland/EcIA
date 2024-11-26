@@ -81,3 +81,47 @@ invert.moth.beta
 
 invert.moth.beta$beta.sim # 33.33% of the dissimilarity is due to species turnover
 invert.moth.beta$beta.sor # 50% of the total diversity is due to differences between the two sites 
+
+## Plot diversity differences ##
+
+library(ggplot2)
+
+## Plot 1: the difference in unique orders present between sites
+
+ggplot(invert.moth.dat, aes(x=site, fill = order)) +
+  geom_bar() +
+  labs(x = "Site", y = "Count", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  # Swapped the axis labels around and changed their names to match names in project
+  theme_bw() 
+
+#Change colours of legend to be more colour blind friendly
+
+library(viridis)
+
+plot7 <- ggplot(invert.moth.dat, aes(x = site, fill = order)) +
+  geom_bar() +
+  labs(x = "Site", y = "Abundance of Invertebrates", fill = "Order") + 
+  scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
+  scale_fill_viridis_d(option = "plasma") + 
+  theme_bw()+
+  scale_y_continuous(breaks = seq(0, 100, 20))
+
+
+## Plot 2: abundance differences between sites of orders
+
+plot8 <- ggplot(invert.moth.dat, aes(x=order, fill = site))+
+  geom_bar() +
+  labs(y = "Abundance of Invertebrates",x = 'Order', fill = 'Site') +
+  scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
+                    limits = c("South", "North"),
+                    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# combine plots together
+
+library(gridExtra)
+quartz()
+grid.arrange(plot7, plot8, ncol = 2)  # Arrange plots in 2 columns
+
