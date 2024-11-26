@@ -71,7 +71,7 @@ vert.tech.beta$beta.sor # 40% of the total diversity is due to differences betwe
 
 library(ggplot2)
 
-# plot 1: difference in total number of recordedings (individualCount) per site
+# plot 1: difference in total number of recordings (individualCount) per site
 
 plot1.vert.tech <- ggplot(vert.tech.dat, aes(x=site, y = individualCount, 
                                              fill = site)) +
