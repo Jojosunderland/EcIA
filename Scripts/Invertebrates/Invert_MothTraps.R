@@ -64,3 +64,20 @@ invert.moth.dat.pa <- invert.moth.dat.pa[,-1] # delete the site column
 invert.moth.dat.pa[invert.moth.dat.pa > 0] <- 1 # converts count data to presence (1), absences are 0
 
 View(invert.moth.dat.pa)
+
+## Calculate diversity indices ##
+#using Vegan package
+
+#Shannon 
+invert.moth.shan.ab <- diversity(invert.moth.dat.ab, index = 'shannon') #using abundance matrix
+invert.moth.shan.ab
+
+invert.moth.shan.pa <- diversity(invert.moth.dat.pa, index='shannon') # using P/A matrix
+invert.moth.shan.pa
+
+#Beta
+invert.moth.beta <- beta.pair(invert.moth.dat.pa)
+invert.moth.beta
+
+invert.moth.beta$beta.sim # 33.33% of the dissimilarity is due to species turnover
+invert.moth.beta$beta.sor # 50% of the total diversity is due to differences between the two sites 
