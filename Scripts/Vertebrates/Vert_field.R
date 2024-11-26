@@ -20,3 +20,11 @@ View(vert.field)
 vert.field.dat <- select(vert.field, site, scientificName)
 
 View(vert.field.dat)
+
+# create dataframes for each site (north = B, south = A) - keeping them named as north and south here to match the data. 
+vert.field.dat.north <-vert.field.dat[which(vert.field.dat$site=="North"),]
+vert.field.dat.south <-vert.field.dat[which(vert.field.dat$site=="South"),]
+
+# calculate how many unique species there are between the sites
+length(unique(vert.field.dat.north$scientificName)) # 20 unique species
+length(unique(vert.field.dat.south$scientificName)) # 15 unique species
