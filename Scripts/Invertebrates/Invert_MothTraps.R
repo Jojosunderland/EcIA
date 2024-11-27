@@ -30,6 +30,36 @@ invert.moth.dat.south <-invert.moth.dat[which(invert.moth.dat$site=="South"),]
 length(unique(invert.moth.dat.north$order)) # 5 unique orders
 length(unique(invert.moth.dat.south$order)) # 3 unique orders
 
+# number of recordings
+
+nrow(invert.moth.dat.north) # 17 recordings
+nrow(invert.moth.dat.south) # 5 recordings
+
+#calculate abundances of each order:
+order.counts <-  invert.moth.dat %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.n <- invert.moth.dat.north %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.s <- invert.moth.dat.south %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+# View the results
+print(order.counts.s)
+print(order.counts.n)
+
+# tables created to see if there is a difference in the orders:
+
+unique.invert.moth.north <- setdiff(invert.moth.dat.north$order, invert.moth.dat.south$order)
+unique.invert.moth.south <- setdiff(invert.moth.dat.south$order, invert.moth.dat.north$order)
+
+unique.invert.moth.north # 3 unique order
+unique.invert.moth.south # 1 unique orders
+
 ## Create a site by species matrix ##
 
 #abundance data
