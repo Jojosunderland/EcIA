@@ -125,10 +125,12 @@ library(viridis) # colour blind friendly colours
 
 plot1.stream <- ggplot(invert.stream.dat, aes(x=site, fill = order)) +
   geom_bar() +
-  labs(title = 'Aquatic invertebrate orders (only streams)', x= 'Site', fill = 'Order', y = 'Abundance of Freshwater Invertebrates') +
+  labs(x= 'Site', fill = 'Order', y = 'Recordings of Freshwater Invertebrates') +
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
   scale_fill_viridis_d(option = "plasma") + 
   theme_bw() 
+
+plot1.stream
 
 #Plot 2: abundance differences
 
@@ -147,5 +149,32 @@ plot2.stream <- ggplot(invert.stream.dat, aes(x=order, fill = site)) +
 library(gridExtra)
 quartz()
 grid.arrange(plot1.stream, plot2.stream, ncol = 2)  # Arrange plots in 2 columns
+
+## Plot 3: abundance differences between sites of orders
+
+plot3.stream <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightgreen") +
+  labs(title = 'Site B', y = "Abundance of Freshwater Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') 
+
+plot3.stream
+
+plot4.stream <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightblue") +
+  labs(title = 'Site A', y = "Abundance of Freshwater Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_y_continuous(breaks = seq(0, 15, 5),
+                     limits =c(0,15))
+plot4.stream
+
+# combine plots of abundances
+library(gridExtra)
+quartz()
+grid.arrange(plot4.stream, plot3.stream, ncol = 2)  # Arrange plots in 2 columns
+
 
   
