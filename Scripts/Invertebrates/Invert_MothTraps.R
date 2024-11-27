@@ -131,7 +131,7 @@ library(viridis)
 
 plot7 <- ggplot(invert.moth.dat, aes(x = site, y = individualCount, fill = order)) +
   geom_col() +
-  labs(x = "Site", y = "Abundance of Invertebrates", fill = "Order") + 
+  labs(x = "Site", y = "Recordings of Invertebrates", fill = "Order") + 
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
   scale_fill_viridis_d(option = "plasma") + 
   theme_bw()+
@@ -154,4 +154,30 @@ plot8 <- ggplot(invert.moth.dat, aes(x=order, fill = site))+
 library(gridExtra)
 quartz()
 grid.arrange(plot7, plot8, ncol = 2)  # Arrange plots in 2 columns
+
+## Plot 3: abundance differences between sites of orders
+
+plot3.moth <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightgreen") +
+  labs(title = 'Site B', y = "Abundance of Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') 
+
+plot3.moth
+
+plot4.moth <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightblue") +
+  labs(title = 'Site A', y = "Abundance of Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_y_continuous(breaks = seq(0, 20, 5),
+                     limits =c(0,20))
+plot4.moth
+
+# combine plots of abundances
+library(gridExtra)
+quartz()
+grid.arrange(plot4.moth, plot3.moth, ncol = 2)  # Arrange plots in 2 columns
 
