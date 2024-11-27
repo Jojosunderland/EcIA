@@ -30,6 +30,20 @@ vert.tech.dat.south <-vert.tech.dat[which(vert.tech.dat$site=="South"),]
 length(unique(vert.tech.dat.north$scientificName)) # 6 unique species
 length(unique(vert.tech.dat.south$scientificName)) # 4 unique species
 
+# number of recordings
+
+nrow(vert.tech.dat.north) # 12 recordings
+nrow(vert.tech.dat.south) # 9 recordings
+
+# tables created to see if there is a difference in the species:
+
+unique.vert.tech.north <- setdiff(vert.tech.dat.north$scientificName, vert.tech.dat.south$scientificName)
+unique.vert.tech.south <- setdiff(vert.tech.dat.south$scientificName, vert.tech.dat.north$scientificName)
+
+unique.vert.tech.north # 3 unique species
+unique.vert.tech.south # 1 unique species
+
+
 ## Create a site by species matrix ##
 
 # ONLY presence/absence data
@@ -114,7 +128,7 @@ plot2.vert.tech
 
 plot3.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = scientificName)) +
   geom_bar() +
-  labs(x='Sites', y = "Total Number of Different Vertebrate Species",
+  labs(x='Sites', y = "Number of Seperate Recordings",
        fill = 'Species') + 
   scale_x_discrete(
     limits = c("South", "North"),
@@ -128,7 +142,7 @@ plot3.vert.tech
 
 plot4.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = class)) +
   geom_bar() +
-  labs(x='Sites', y = "Total Number of Different Vertebrate Classes",
+  labs(x='Sites', y = "Number of Seperate Recordings",
        fill = 'Class') + 
   scale_x_discrete(
     limits = c("South", "North"),
