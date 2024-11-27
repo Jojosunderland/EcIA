@@ -29,6 +29,21 @@ vert.field.dat.south <-vert.field.dat[which(vert.field.dat$site=="South"),]
 vert.north.sp <- length(unique(vert.field.dat.north$scientificName)) # 20 unique species
 vert.south.sp <- length(unique(vert.field.dat.south$scientificName)) # 15 unique species
 
+# number of recordings
+
+nrow(vert.field.dat.north) # 22 recordings
+nrow(vert.field.dat.south) # 24 recordings
+
+# tables created to see if there is a difference in the species:
+
+unique.vert.field.north <- setdiff(vert.field.dat.north$scientificName, vert.field.dat.south$scientificName)
+unique.vert.field.south <- setdiff(vert.field.dat.south$scientificName, vert.field.dat.north$scientificName)
+
+unique.vert.field.north # 10 unique species
+unique.vert.field.south # 5 unique species
+
+
+
 ## Create a site by species matrix ##
 
 # ONLY presence/absence data
