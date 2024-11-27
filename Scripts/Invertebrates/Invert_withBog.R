@@ -223,6 +223,35 @@ invert.aqua.dat.south <-invert.aqua.dat[which(invert.aqua.dat$site=="South"),]
 length(unique(invert.aqua.dat.north$order)) # 13 unique orders
 length(unique(invert.aqua.dat.south$order)) # 12 unique orders
 
+# number of recordings
+
+nrow(invert.aqua.dat.north) # 45 recordings
+nrow(invert.aqua.dat.south) # 40 recordings - 7 more recordings
+
+#calculate abundances of each order:
+order.counts <-  invert.aqua.dat %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.n <- invert.aqua.dat.north %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.s <- invert.aqua.dat.south %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+# View the results
+print(order.counts.s)
+print(order.counts.n)
+
+# tables created to see if there is a difference in the orders:
+
+unique.invert.aqua.north <- setdiff(invert.aqua.dat.north$order, invert.aqua.dat.south$order)
+unique.invert.aqua.south <- setdiff(invert.aqua.dat.south$order, invert.aqua.dat.north$order)
+
+unique.invert.aqua.north # 3 unique order
+unique.invert.aqua.south # 2 unique orders
 
 ## Create a site by species matrix ##
 
