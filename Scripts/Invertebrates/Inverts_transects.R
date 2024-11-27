@@ -162,21 +162,22 @@ grid.arrange(plot1, plot2, ncol = 2)  # Arrange plots in 2 columns
 ## Plot 3: abundance differences between sites of orders
 
 plot3 <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
-  geom_col() +
+  geom_col(fill = "lightgreen") +
   labs(title = 'Site B', y = "Abundance of Field Invertebrates",x = 'Order') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(legend.position = 'none') +
-  scale_fill_viridis_d(option = "plasma", end = 0.8)
+  scale_y_continuous(breaks = seq(0, 80, 20),
+                     limits =c(0,80))
+  
 plot3
 
 plot4 <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
-  geom_col() +
+  geom_col(fill = "lightblue") +
   labs(title = 'Site A', y = "Abundance of Field Invertebrates",x = 'Order') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  theme(legend.position = 'none') +
-  scale_fill_viridis_d(option = "plasma")
+  theme(legend.position = 'none') 
 plot4
 
 # combine plots of abundances
