@@ -355,3 +355,29 @@ grid.arrange(plot1.stream, plot5, ncol = 2)  # Arrange plots in 2 columns
 quartz()
 grid.arrange(plot2.stream, plot6, ncol = 2)
 
+## Plot 3: abundance differences between sites of orders
+
+plot3.aqua <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightgreen") +
+  labs(title = 'Site B', y = "Abundance of Freshwater Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') 
+
+plot3.aqua
+
+plot4.aqua <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightblue") +
+  labs(title = 'Site A', y = "Abundance of Freshwater Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_y_continuous(breaks = seq(0, 15, 5),
+                     limits =c(0,15))
+plot4.aqua
+
+# combine plots of abundances
+library(gridExtra)
+quartz()
+grid.arrange(plot4.aqua, plot3.aqua, ncol = 2)  # Arrange plots in 2 columns
+
