@@ -32,6 +32,14 @@ nrow(arran.dat.south) # 168 recordings
 length(unique(arran.dat.north$order)) # 25 unique orders
 length(unique(arran.dat.south$order)) # 25 unique orders
 
+# tables created to see if there is a difference in the orders, as their totals are the same:
+
+unique_to_north <- setdiff(arran.dat.north$order, arran.dat.south$order)
+unique_to_south <- setdiff(arran.dat.south$order, arran.dat.north$order)
+
+unique_to_north
+unique_to_south
+
 ## Create a site by species matrix ##
 
 # ONLY presence/absence data - as verts dont have counts
