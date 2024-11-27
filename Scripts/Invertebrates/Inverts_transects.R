@@ -133,7 +133,7 @@ library(viridis)
 
 plot1 <- ggplot(invert.field.dat, aes(x = site, fill = order)) +
   geom_bar() +
-  labs(title = "Terrestrial invertebrate orders (only field)", x = "Site", y = "Abundance of Terrestrial Invertebrates", fill = "Order") + 
+  labs(x = "Site", y = "Recordings of Terrestrial Invertebrates", fill = "Order") + 
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
   scale_fill_viridis_d(option = "plasma") + 
   theme_bw()+
