@@ -28,9 +28,38 @@ invert.field.dat <- invert.field.dat[-which(is.na(invert.field.dat$order)),] #wh
 invert.field.dat.north <-invert.field.dat[which(invert.field.dat$site=="North"),]
 invert.field.dat.south <-invert.field.dat[which(invert.field.dat$site=="South"),]
 
+# number of recordings
+
+nrow(invert.field.dat.north) # 26 recordings
+nrow(invert.field.dat.south) # 78 recordings
+
+#calculate abundances of each order:
+order.counts <-  invert.field.dat %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.n <- invert.field.dat.north %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+order.counts.s <- invert.field.dat.south %>%
+  group_by(site, order) %>%
+  summarise(total_count = sum(individualCount), .groups = "drop")
+
+# View the results
+print(order.counts.s)
+
 # calculate how many unique orders are there between the sites
 length(unique(invert.field.dat.north$order)) # 6 unique orders
 length(unique(invert.field.dat.south$order)) # 9 unique orders
+
+# tables created to see if there is a difference in the orders:
+
+unique.invert.field.north <- setdiff(invert.field.dat.north$order, invert.field.dat.south$order)
+unique.invert.field.south <- setdiff(invert.field.dat.south$order, invert.field.dat.north$order)
+
+unique.invert.field.north # 1 unique order
+unique.invert.field.south # 4 unique orders
 
 ## Create a site by species matrix ##
 
@@ -130,3 +159,27 @@ library(gridExtra)
 quartz()
 grid.arrange(plot1, plot2, ncol = 2)  # Arrange plots in 2 columns
 
+## Plot 3: abundance differences between sites of orders
+
+plot3 <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
+  geom_col() +
+  labs(title = 'Site B', y = "Abundance of Field Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_fill_viridis_d(option = "plasma", end = 0.8)
+plot3
+
+plot4 <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
+  geom_col() +
+  labs(title = 'Site A', y = "Abundance of Field Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_fill_viridis_d(option = "plasma")
+plot4
+
+# combine plots of abundances
+library(gridExtra)
+quartz()
+grid.arrange(plot4, plot3, ncol = 2)  # Arrange plots in 2 columns
