@@ -91,7 +91,7 @@ plot1.vert <- ggplot(vert.field.dat, aes(x=site, fill = scientificName)) +
                  limits = c("South", "North"),
                  labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option = "mako") 
+  scale_fill_viridis_d(option = "plasma") 
 
 plot1.vert
 
@@ -107,7 +107,7 @@ plot2.vert <- ggplot(vert.field.taxa, aes(x=site, fill = class)) +
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option = "mako") 
+  scale_fill_viridis_d(option = "plasma") 
 
 plot2.vert
 

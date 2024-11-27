@@ -92,7 +92,7 @@ plot1.arran2 <- ggplot(arran.dat, aes(x=site, fill = order)) +
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option='mako')
+  scale_fill_viridis_d(option='plasma')
 
 plot1.arran2
 # plot 2 differences in class 

@@ -120,7 +120,7 @@ plot3.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = scientificName)) +
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option = "mako")
+  scale_fill_viridis_d(option = "plasma")
 
 plot3.vert.tech  
 
@@ -134,7 +134,7 @@ plot4.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = class)) +
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option = "mako", begin =0.3, end = 0.7)
+  scale_fill_viridis_d(option = "plasma", , begin =0.2, end = 0.6)
 
 plot4.vert.tech
 
