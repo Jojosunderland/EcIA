@@ -29,6 +29,8 @@ vert.field.dat.south <-vert.field.dat[which(vert.field.dat$site=="South"),]
 vert.north.sp <- length(unique(vert.field.dat.north$scientificName)) # 20 unique species
 vert.south.sp <- length(unique(vert.field.dat.south$scientificName)) # 15 unique species
 
+vert.north.sp
+vert.south.sp
 # number of recordings
 
 nrow(vert.field.dat.north) # 22 recordings
@@ -110,6 +112,8 @@ plot1.vert <- ggplot(vert.field.dat, aes(x=site, fill = scientificName)) +
 
 plot1.vert
 
+
+
 # plot 3 composition of sites divided by classes
 
 #new dataframe that includes species class
@@ -125,6 +129,23 @@ plot2.vert <- ggplot(vert.field.taxa, aes(x=site, fill = class)) +
   scale_fill_viridis_d(option = "plasma") 
 
 plot2.vert
+
+#combine species and class into one plot
+plot2.vert2 <- ggplot(vert.field.taxa, aes(x=site, fill = scientificName, colour = class)) +
+  geom_bar() +
+  labs(x='Sites', fill = 'Species', y = "Number of Recordings", colour = 'Class') +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option = "plasma") +
+  theme(
+    legend.box = "vertical",# Place legends side by side
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 9)) 
+
+quartz()
+plot2.vert2
 
 install.packages('patchwork') # used to combine the generated plots together
 library(patchwork)
