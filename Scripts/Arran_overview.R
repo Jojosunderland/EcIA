@@ -66,4 +66,88 @@ arran.beta <- beta.pair(arran.dat.pa)
 arran.beta$beta.sim # 20% of the dissimilarity is due to species turnover
 arran.beta$beta.sor # 20% of the total diversity is due to differences between the two sites 
 
+## Plot diversity differences ##
 
+library(ggplot2)
+
+# plot 1 differences in order composition
+
+plot1.arran <- ggplot(arran.dat, aes(x=site, fill = order, colour = order)) +
+  geom_bar() +
+  labs(x="Sites", fill = "Order", y ='Number of times recorded', colour = 'Order') +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option='mako') +
+  scale_colour_manual(values = c('order' = "white"))
+
+plot1.arran
+
+#without outlines
+plot1.arran2 <- ggplot(arran.dat, aes(x=site, fill = order)) +
+  geom_bar() +
+  labs(x="Sites", fill = "Order", y ='Number of times recorded') +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option='mako')
+
+plot1.arran2
+# plot 2 differences in class 
+
+#new dataframe
+arran.dat.class <- select(arran, site, class)
+#remove NAs
+arran.dat.class <- arran.dat.class[-which(is.na(arran.dat.class$class)),] 
+
+plot2.arran <- ggplot(arran.dat.class, aes(x=site, fill = class)) +
+  geom_bar() +
+  labs(x="Sites", fill = "Class", y ='Number of times recorded') +
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_viridis_d(option='mako')
+
+plot2.arran
+
+#combine plots together
+library(patchwork)
+
+combined_plot6 <- plot1.arran + plot2.arran 
+
+# Display the combined plot
+quartz()
+print(combined_plot6)
+
+#plot 3 number of unique orders per site
+
+# new dataframe that has the total number of unique species per site 
+order.count <- arran.dat %>%
+  group_by(site) %>%
+  summarise(unique_orders = n_distinct(order))
+
+plot3.arran <- ggplot(order.count, aes(x=site, y = unique_orders, fill = site)) +
+  geom_col() +
+  labs(x='Sites', y = "Total number of different orders") + 
+  scale_x_discrete(
+    limits = c("South", "North"),
+    labels = c("South" = "A", "North" = "B")) +
+  theme_bw() +
+  scale_fill_manual(
+    values = c("South" = "lightblue", "North" = "lightgreen")
+  ) +
+  theme(legend.position = 'none') #remove the legend
+
+plot3.arran
+
+#combine plots together
+library(patchwork)
+
+combined_plot7 <- plot3.arran + plot1.arran2 
+
+# Display the combined plot
+quartz()
+print(combined_plot7)
