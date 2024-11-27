@@ -74,7 +74,7 @@ library(ggplot2)
 
 ggplot(vert.field.dat, aes(x=scientificName, fill = site)) +
   geom_bar() +
-  labs(x="Species present at the sites", y = "Number of sightings", fill = "Sites") +
+  labs(x="Species present at the sites", y = "Number of Recordings", fill = "Sites") +
   scale_fill_manual(values = c("South" = "lightblue", "North" = "lightgreen"),
                     limits = c("South", "North"),
                     labels = c("South" = "A", "North" = "B")) +
@@ -86,7 +86,7 @@ ggplot(vert.field.dat, aes(x=scientificName, fill = site)) +
 
 plot1.vert <- ggplot(vert.field.dat, aes(x=site, fill = scientificName)) +
   geom_bar() +
-  labs(x='Sites', fill = 'Species', y = "Number of sightings") +
+  labs(x='Sites', fill = 'Species', y = "Number of Recordings") +
   scale_x_discrete(
                  limits = c("South", "North"),
                  labels = c("South" = "A", "North" = "B")) +
@@ -102,7 +102,7 @@ vert.field.taxa <- select(vert.field, site, class, scientificName)
 
 plot2.vert <- ggplot(vert.field.taxa, aes(x=site, fill = class)) +
   geom_bar() +
-  labs(x='Sites', fill = 'Class', y = "Total number of sightings") +
+  labs(x='Sites', fill = 'Class', y = "Number of Recordings") +
   scale_x_discrete(
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
@@ -156,7 +156,7 @@ species_counts <- vert.field.dat %>%
 
 plot4.vert <- ggplot(species_counts, aes(x=site, y = unique_species, fill = site)) +
   geom_col() +
-  labs(x='Sites', y = "Total number of different vertebrate species present") + 
+  labs(x='Sites', y = "Total Number of Different Vertebrate Species") + 
   scale_x_discrete(
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +

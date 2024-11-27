@@ -76,7 +76,7 @@ library(ggplot2)
 plot1.vert.tech <- ggplot(vert.tech.dat, aes(x=site, y = individualCount, 
                                              fill = site)) +
   geom_col() +
-  labs(x= "Sites", y = "Total number of recordings (audio and pictures)", fill = "Sites") +
+  labs(x= "Sites", y = "Total Number of Recordings (AudioMoth and Camera traps)", fill = "Sites") +
   scale_x_discrete(
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
@@ -98,7 +98,7 @@ species.counts.tech <- vert.tech.dat %>%
 
 plot2.vert.tech <- ggplot(species.counts.tech, aes(x=site, y = unique_species, fill = site)) +
   geom_col() +
-  labs(x='Sites', y = "Total number of different vertebrate species present") + 
+  labs(x='Sites', y = "Total Number of Different Vertebrate Species") + 
   scale_x_discrete(
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
@@ -114,7 +114,7 @@ plot2.vert.tech
 
 plot3.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = scientificName)) +
   geom_bar() +
-  labs(x='Sites', y = "Total number of different vertebrate species",
+  labs(x='Sites', y = "Total Number of Different Vertebrate Species",
        fill = 'Species') + 
   scale_x_discrete(
     limits = c("South", "North"),
@@ -128,7 +128,7 @@ plot3.vert.tech
 
 plot4.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = class)) +
   geom_bar() +
-  labs(x='Sites', y = "Total number of different vertebrate classes",
+  labs(x='Sites', y = "Total Number of Different Vertebrate Classes",
        fill = 'Class') + 
   scale_x_discrete(
     limits = c("South", "North"),
@@ -139,6 +139,7 @@ plot4.vert.tech <- ggplot(vert.tech.dat, aes(x=site, fill = class)) +
 plot4.vert.tech
 
 # Combine the two plots (species and class differences)
+library(patchwork)
 combined_plot5 <- plot3.vert.tech + plot4.vert.tech 
 
 # Display the combined plot
