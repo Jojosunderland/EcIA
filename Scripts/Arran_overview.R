@@ -25,6 +25,9 @@ arran.dat <- arran.dat[-which(is.na(arran.dat$order)),] #which orders have NAs
 arran.dat.north <-arran.dat[which(arran.dat$site=="North"),]
 arran.dat.south <-arran.dat[which(arran.dat$site=="South"),]
 
+nrow(arran.dat.north) # 122 recordings
+nrow(arran.dat.south) # 168 recordings
+
 # calculate how many unique orders there are between the sites
 length(unique(arran.dat.north$order)) # 25 unique orders
 length(unique(arran.dat.south$order)) # 25 unique orders
