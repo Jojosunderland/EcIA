@@ -99,15 +99,15 @@ ggplot(invert.moth.dat, aes(x=site, fill = order)) +
 
 library(viridis)
 
-plot7 <- ggplot(invert.moth.dat, aes(x = site, fill = order)) +
-  geom_bar() +
+plot7 <- ggplot(invert.moth.dat, aes(x = site, y = individualCount, fill = order)) +
+  geom_col() +
   labs(x = "Site", y = "Abundance of Invertebrates", fill = "Order") + 
   scale_x_discrete(limits = c("South", "North"), labels = c("South" = "A", "North" = "B")) +
   scale_fill_viridis_d(option = "plasma") + 
   theme_bw()+
   scale_y_continuous(breaks = seq(0, 100, 20))
 
-
+plot7
 ## Plot 2: abundance differences between sites of orders
 
 plot8 <- ggplot(invert.moth.dat, aes(x=order, fill = site))+
