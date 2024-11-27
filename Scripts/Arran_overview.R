@@ -72,20 +72,7 @@ library(ggplot2)
 
 # plot 1 differences in order composition
 
-plot1.arran <- ggplot(arran.dat, aes(x=site, fill = order, colour = order)) +
-  geom_bar() +
-  labs(x="Sites", fill = "Order", y ='Number of times recorded', colour = 'Order') +
-  scale_x_discrete(
-    limits = c("South", "North"),
-    labels = c("South" = "A", "North" = "B")) +
-  theme_bw() +
-  scale_fill_viridis_d(option='mako') +
-  scale_colour_manual(values = c('order' = "white"))
-
-plot1.arran
-
-#without outlines
-plot1.arran2 <- ggplot(arran.dat, aes(x=site, fill = order)) +
+plot1.arran <- ggplot(arran.dat, aes(x=site, fill = order)) +
   geom_bar() +
   labs(x="Sites", fill = "Order", y ='Number of times recorded') +
   scale_x_discrete(
@@ -94,7 +81,7 @@ plot1.arran2 <- ggplot(arran.dat, aes(x=site, fill = order)) +
   theme_bw() +
   scale_fill_viridis_d(option='plasma')
 
-plot1.arran2
+plot1.arran
 # plot 2 differences in class 
 
 #new dataframe
@@ -109,7 +96,7 @@ plot2.arran <- ggplot(arran.dat.class, aes(x=site, fill = class)) +
     limits = c("South", "North"),
     labels = c("South" = "A", "North" = "B")) +
   theme_bw() +
-  scale_fill_viridis_d(option='mako')
+  scale_fill_viridis_d(option='plasma')
 
 plot2.arran
 
@@ -146,7 +133,7 @@ plot3.arran
 #combine plots together
 library(patchwork)
 
-combined_plot7 <- plot3.arran + plot1.arran2 
+combined_plot7 <- plot3.arran + plot1.arran 
 
 # Display the combined plot
 quartz()
