@@ -169,6 +169,34 @@ grid.arrange(plot1, plot3, ncol = 2)  # Arrange plots in 2 columns
 quartz()
 grid.arrange(plot2, plot4, ncol = 2)
 
+## Plot 3: abundance differences between sites of orders
+
+plot.ab.n <- ggplot(order.counts.n, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightgreen") +
+  labs(title = 'Site B', y = "Abundance of Terrestrial Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') +
+  scale_y_continuous(breaks = seq(0, 80, 20),
+                     limits =c(0,80))
+
+plot.ab.n
+
+plot.ab.s <- ggplot(order.counts.s, aes(y = total_count, x =order, fill = order))+
+  geom_col(fill = "lightblue") +
+  labs(title = 'Site A', y = "Abundance of Terrestrial Invertebrates",x = 'Order') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = 'none') 
+plot.ab.s
+
+# combine plots of abundances
+library(gridExtra)
+quartz()
+grid.arrange(plot.ab.s, plot.ab.n, ncol = 2)  # Arrange plots in 2 columns
+
+
+
 
 ## Invertebrate aquatic data with the bog data ##
 # Manually added the kicknet sampling data to the stream excel sheet
